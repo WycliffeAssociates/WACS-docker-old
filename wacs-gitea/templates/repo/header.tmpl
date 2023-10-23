@@ -1,0 +1,133 @@
+<div class="header-wrapper">
+
+{{$isdv:=eq AppUrl "https://content-dev.bibletranslationtools.org/"}}
+{{$isqa:=eq AppUrl "https://content-qa.bibletranslationtools.org/"}}
+{{$dv:=and $isdv "http://read-dev.bibleineverylanguage.org/"}}
+{{$qa:=and $isqa "http://read-qa.bibleineverylanguage.org/"}}
+{{$pr:="http://read.bibleineverylanguage.org/"}}
+{{$readerBaseLink:=or $dv $qa $pr}}
+
+{{with .Repository}}
+	<div class="ui container">
+		<div class="ui stackable grid header-grid repo-header">
+			<div class="six wide column">
+				<div class="ui huge breadcrumb">
+					<i class="mega-octicon octicon-{{if .IsPrivate}}lock{{else if .IsMirror}}repo-clone{{else if .IsFork}}repo-forked{{else}}repo{{end}}"></i>
+					<a href="{{AppSubUrl}}/{{.Owner.Name}}">{{.Owner.Name}}</a>
+					<div class="divider"> / </div>
+					<a href="{{$.RepoLink}}">{{.Name}}</a>
+					{{if .IsMirror}}<div class="fork-flag">{{$.i18n.Tr "repo.mirror_from"}} <a target="_blank" rel="noopener noreferrer" href="{{if .SanitizedOriginalURL}}{{.SanitizedOriginalURL}}{{else}}{{MirrorAddress $.Mirror}}{{end}}">{{if .SanitizedOriginalURL}}{{.SanitizedOriginalURL}}{{else}}{{MirrorAddress $.Mirror}}{{end}}</a></div>{{end}}
+					{{if .IsFork}}<div class="fork-flag">{{$.i18n.Tr "repo.forked_from"}} <a href="{{.BaseRepo.Link}}">{{SubStr .BaseRepo.RelLink 1 -1}}</a></div>{{end}}
+					{{if .IsGenerated}}<div class="fork-flag">{{$.i18n.Tr "repo.generated_from"}} <a href="{{.TemplateRepo.Link}}">{{SubStr .TemplateRepo.RelLink 1 -1}}</a></div>{{end}}
+				</div>
+			</div>
+
+			<div class="ui ten wide right aligned repo-buttons">
+				<div class="ui compact labeled button" id="see-on-door43-button" tabindex="0">
+					<a class="ui compact button" target="_blank" href="{{$readerBaseLink}}{{.Owner.Name}}/{{.Name}}/">
+						<!-- empty icon ensures that this button is same size as Watch/Star/Fork buttons -->
+						<i class="icon empty-icon"></i><span>{{$.i18n.Tr "repo.see_on_door43"}}</span>
+					</a>
+					<a class="ui basic left pointing label" href="{{$readerBaseLink}}{{.Owner.Name}}/{{.Name}}/">
+						&#xfeff;<img id="door43-logo" src="/img/favicon.svg"/>
+					</a>
+				</div>
+				<div class="repo-button-separator">
+				</div>
+				<form method="post" action="{{$.RepoLink}}/action/{{if $.IsWatchingRepo}}un{{end}}watch?redirect_to={{$.Link}}">
+					{{$.CsrfTokenHtml}}
+					<div class="ui labeled button" tabindex="0">
+						<button type="submit" class="ui compact basic button">
+							{{if $.IsWatchingRepo}}{{svg "octicon-eye-closed" 16}}{{$.i18n.Tr "repo.unwatch"}}{{else}}{{svg "octicon-eye" 16}}{{$.i18n.Tr "repo.watch"}}{{end}}
+						</button>
+						<a class="ui basic label" href="{{.Link}}/watchers">
+							{{.NumWatches}}
+						</a>
+					</div>
+				</form>
+				<form method="post" action="{{$.RepoLink}}/action/{{if $.IsStaringRepo}}un{{end}}star?redirect_to={{$.Link}}">
+					{{$.CsrfTokenHtml}}
+					<div class="ui labeled button" tabindex="0">
+						<button type="submit" class="ui compact basic button">
+							{{if $.IsStaringRepo}}{{svg "octicon-star" 16}}{{$.i18n.Tr "repo.unstar"}}{{else}}{{svg "octicon-star" 16}}{{$.i18n.Tr "repo.star"}}{{end}}
+						</button>
+						<a class="ui basic label" href="{{.Link}}/stars">
+							{{.NumStars}}
+						</a>
+					</div>
+				</form>
+				{{if and (not .IsEmpty) ($.Permission.CanRead $.UnitTypeCode)}}
+					<div class="ui labeled button {{if and ($.IsSigned) (not $.CanSignedUserFork)}}disabled-repo-button{{end}}" tabindex="0">
+						<a class="ui compact basic button {{if or (not $.IsSigned) (not $.CanSignedUserFork)}}poping up{{end}}" {{if $.CanSignedUserFork}}href="{{AppSubUrl}}/repo/fork/{{.ID}}"{{else if $.IsSigned}} data-content="{{$.i18n.Tr "repo.fork_from_self"}}" {{ else }} data-content="{{$.i18n.Tr "repo.fork_guest_user" }}" rel="nofollow" href="{{AppSubUrl}}/user/login?redirect_to={{AppSubUrl}}/repo/fork/{{.ID}}" {{end}} data-position="top center" data-variation="tiny">
+							{{svg "octicon-repo-forked" 16}}{{$.i18n.Tr "repo.fork"}}
+						</a>
+						<a class="ui basic label" href="{{.Link}}/forks">
+							{{.NumForks}}
+						</a>
+					</div>
+				{{end}}
+			</div>
+		</div><!-- end grid -->
+	</div><!-- end container -->
+{{end}}
+{{if not .IsDiffCompare}}
+	<div class="ui tabs container">
+		<div class="ui tabular stackable menu navbar">
+			{{if .Repository.UnitEnabled $.UnitTypeCode}}
+			<a class="{{if .PageIsViewCode}}active{{end}} item" href="{{.RepoLink}}">
+				<i class="octicon octicon-file-text"></i> {{.i18n.Tr "repo.code"}}
+			</a>
+			{{end}}
+
+			{{if .Repository.UnitEnabled $.UnitTypeIssues}}
+				<a class="{{if .PageIsIssueList}}active{{end}} item" href="{{.RepoLink}}/issues">
+					<i class="octicon octicon-issue-opened"></i> {{.i18n.Tr "repo.issues"}} <span class="ui {{if not .Repository.NumOpenIssues}}gray{{else}}blue{{end}} small label">{{.Repository.NumOpenIssues}}</span>
+				</a>
+			{{end}}
+
+			{{if .Repository.UnitEnabled $.UnitTypeExternalTracker}}
+				<a class="{{if .PageIsIssueList}}active{{end}} item" href="{{.RepoLink}}/issues" target="_blank">
+					<i class="octicon octicon-issue-opened"></i> {{.i18n.Tr "repo.issues"}} </span>
+				</a>
+			{{end}}
+
+			{{if .Repository.AllowsPulls}}
+				<a class="{{if .PageIsPullList}}active{{end}} item" href="{{.RepoLink}}/pulls">
+					<i class="octicon octicon-git-pull-request"></i> {{.i18n.Tr "repo.pulls"}} <span class="ui {{if not .Repository.NumOpenPulls}}gray{{else}}blue{{end}} small label">{{.Repository.NumOpenPulls}}</span>
+				</a>
+			{{end}}
+
+			{{if and (.Repository.UnitEnabled $.UnitTypeReleases) (not .IsBareRepo) }}
+			<a class="{{if .PageIsReleaseList}}active{{end}} item" href="{{.RepoLink}}/releases">
+				<i class="octicon octicon-tag"></i> {{.i18n.Tr "repo.releases"}} <span class="ui {{if not .NumReleases}}gray{{else}}blue{{end}} small label">{{.NumReleases}}</span>
+			</a>
+			{{end}}
+
+			{{if or (.Repository.UnitEnabled $.UnitTypeWiki) (.Repository.UnitEnabled $.UnitTypeExternalWiki)}}
+				<a class="{{if .PageIsWiki}}active{{end}} item" href="{{.RepoLink}}/wiki" {{if (.Repository.UnitEnabled $.UnitTypeExternalWiki)}} target="_blank" {{end}}>
+					<i class="octicon octicon-book"></i> {{.i18n.Tr "repo.wiki"}}
+				</a>
+			{{end}}
+
+			{{if and (.Permission.CanReadAny $.UnitTypePullRequests $.UnitTypeIssues $.UnitTypeReleases) (not .IsEmptyRepo)}}
+				<a class="{{if .PageIsActivity}}active{{end}} item" href="{{.RepoLink}}/activity">
+					<i class="octicon octicon-pulse"></i> {{.i18n.Tr "repo.activity"}}
+				</a>
+			{{end}}
+
+			{{template "custom/extra_tabs" .}}
+
+			{{if .IsRepositoryAdmin}}
+				<div class="right menu">
+					<a class="{{if .PageIsSettings}}active{{end}} item" href="{{.RepoLink}}/settings">
+						<i class="octicon octicon-tools"></i> {{.i18n.Tr "repo.settings"}}
+					</a>
+				</div>
+			{{end}}
+		</div>
+	</div>
+	<div class="ui tabs divider"></div>
+{{else}}
+	<div class="ui divider"></div>
+{{end}}
+</div>

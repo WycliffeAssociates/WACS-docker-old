@@ -1,0 +1,47 @@
+{{template "/templates/base/head" .}}
+<div class="home">
+	<div class="ui stackable middle very relaxed page grid">
+		<div class="sixteen wide center aligned centered column">
+			<div>
+				<img class="logo" src="{{AppSubUrl}}/img/dcs.png" />
+			</div>
+		</div>
+	</div>
+	{{if eq .Lang "de-DE"}}
+	{{else if eq .Lang "zh-CN"}}
+	{{else if eq .Lang "fr-FR"}}
+	{{else if eq .Lang "es-ES"}}
+	{{else if eq .Lang "pt-BR"}}
+	{{else if eq .Lang "ru-RU"}}
+	{{else}}
+	<div class="ui stackable middle very relaxed page grid">
+		<div class="sixteen wide left column">
+            <h1>About Page</h1>
+			<p>Wycliffe Associates Content Server (WACS) <a href="http://git.BibleTranslationTools.org">http://git.BibleTranslationTools.org</a> is an online repository for open-licensed Biblical content in any language.</p>
+			<p>BibleTranslationTools.org is an open project that is managed by <a href="https://wycliffeassociates.org/"  target="_blank">Wycliffe Associates</a> and many volunteers.</p>
+		</div>
+
+		<div class="eight wide left column">
+			<h3><i class="octicon octicon-person"></i> Get Started</h3>
+			<p>First <a href="http://git.BibleTranslationTools.org/user/sign_up" rel="nofollow">register</a> for a WACS account. This account can both be used here on WACS and in apps that connect to WACS.</p>
+			<p>If you are a translator, we suggest you start working with one of the tools on the <a href="https://www.bibleineverylanguage.org/index.php/tools/">Tools</a> page.</p>
+			<p>If you'd like to learn more about how to translate the Bible, check out the <a href="https://www.bibleineverylanguage.org/index.php/processes/">Processes</a> page.</p>
+		</div>
+
+		<div class="eight wide left column">
+			<h3><i class="octicon octicon-comment-discussion"></i> Communication</h3>
+			<p>If you have questions, you can email <a href="mailto:WACS@wycliffeassociates.org">WACS@wycliffeassociates.org</a>.
+		</div>
+
+		<div class="sixteen wide left column">
+			<h3><i class="octicon octicon-gear"></i> Conversion to Door43</h3>
+			<p>Every change made in WACS automatically creates a web page on <a href="https://door43.org/en/" rel="nofollow">Door43</a>.</p>
+			<div>
+				<img class="ui fluid image" src="https://cdn.door43.org/assets/img/dcs_tx_door43.jpg" alt="DCS to Door43 Conversion">
+			</div>
+			<p><a href="https://door43.org/en/" rel="nofollow">Browse</a> for your content on Door43, or use the "See on Door43" link at the top of any DCS project.</p>
+		</div>
+	</div>
+	{{end}}
+</div>
+{{template "/templates/base/footer" .}}
