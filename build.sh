@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export BUILD_IMAGE_NAME=registry.walink.org/wa/wacs
+export BUILD_IMAGE_NAME=wacs
 
 cd ./wacs-gitea
 
