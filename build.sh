@@ -2,6 +2,8 @@
 
 export BUILD_IMAGE_NAME=registry.walink.org/wa/wacs
 
+cd ./wacs-gitea
+
 if [ -z "$BUILD_IMAGE_NAME" ]; then 
     echo "ERROR: env var BUILD_IMAGE_NAME is blank or undefined"
     exit 1
