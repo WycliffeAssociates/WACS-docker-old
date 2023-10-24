@@ -20,7 +20,7 @@ docker build -t registry.walink.org/wa/$BUILD_IMAGE_NAME:$CURRENT_GIT_COMMIT .
 
 docker tag registry.walink.org/wa/$BUILD_IMAGE_NAME:$CURRENT_GIT_COMMIT registry.walink.org/wa/$BUILD_IMAGE_NAME:$CURRENT_GIT_BRANCH
 
-if [ $CURRENT_GIT_BRANCH = "master" ];
+if [ $CURRENT_GIT_BRANCH = "prod" ];
   then docker tag registry.walink.org/wa/$BUILD_IMAGE_NAME:$CURRENT_GIT_COMMIT registry.walink.org/wa/$BUILD_IMAGE_NAME:latest;
 fi
 
