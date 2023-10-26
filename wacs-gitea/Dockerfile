@@ -6,7 +6,7 @@ RUN npx -p less lessc /public/less/index.less /public/css/index.css && \
     npx -p clean-css-cli cleancss /public/css/index.css -o /public/css/index-min.css && \
     mv /public/css/index-min.css /public/css/index.css
 
-FROM gitea/gitea:1.13
+FROM gitea/gitea:1.14
 
 ENV GITEA_CUSTOM=/custom
 
