@@ -5,7 +5,7 @@ if [ -z "$DEPLOY_ENV" ]; then
   exit 1
 fi
 
-if [ -z "$OP_TOKEN" ]; then
+if [ -z "$OP_SERVICE_ACCOUNT_TOKEN" ]; then
   echo "Error: Please set the 'OP_SERVICE_ACCOUNT_TOKEN' environment variable."
   exit 1
 fi
