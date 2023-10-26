@@ -10,6 +10,8 @@ if [ -z "$OP_SERVICE_ACCOUNT_TOKEN" ]; then
   exit 1
 fi
 
+shopt -s expand_aliases
+
 alias op="docker run -e OP_SERVICE_ACCOUNT_TOKEN 1password/op:2 op"
 
 # Log in to 1password CLI
@@ -41,7 +43,7 @@ export GITEA__service__REGISTER_EMAIL_CONFIRM=$(op read "op://wacs/wacs-gitea-se
 export GITEA__oauth2__JWT_SECRET=$(op read "op://wacs/wacs-gitea-secrets/$DEPLOY_ENV/jwt-secret")
 
 # Gitea app.ini mailer overrides
-if [ "$DEPLOY_ENV" = "prod"]
+if [[ "$DEPLOY_ENV" = "prod" ]]; then
   export GITEA__mailer__ENABLED=true
   export GITEA__mailer__HOST=$(op read "op://Shared-IT-Development/d52sfisg5cry5yfpj2lynfq3ru/server"):$(op read "op://Shared-IT-Development/d52sfisg5cry5yfpj2lynfq3ru/port number")
   export GITEA__mailer__USER=$(op read "op://Shared-IT-Development/d52sfisg5cry5yfpj2lynfq3ru/username")
