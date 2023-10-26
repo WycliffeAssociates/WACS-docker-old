@@ -54,7 +54,7 @@ fi
 export IMAGE_TAG=$DEPLOY_ENV
 export EXTERNAL_DATA_BOOL=true
 
-docker compose up
+docker compose up -d
 
 #Log out of 1password CLI
 
