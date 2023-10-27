@@ -11,6 +11,7 @@ if [ -z "$OP_SERVICE_ACCOUNT_TOKEN" ]; then
 fi
 
 shopt -s expand_aliases
+set -x
 
 alias op="docker run -e OP_SERVICE_ACCOUNT_TOKEN 1password/op:2 op"
 
