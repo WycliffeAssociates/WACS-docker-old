@@ -18,3 +18,7 @@ admin-user:
 .PHONY: down
 down: 
 	docker compose down
+
+.PHONY: clean
+clean:
+	docker compose down && sudo rm -rf ./gitea-data && sudo rm -rf ./mysql-data

@@ -1,0 +1,1 @@
+This folder contains [lesscss](https://lesscss.org/). These files are used to build the single index.css file that is placed at `/custom/public` during docker build.

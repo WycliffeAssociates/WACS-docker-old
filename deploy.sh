@@ -17,7 +17,7 @@ alias op="docker run -e OP_SERVICE_ACCOUNT_TOKEN 1password/op:2 op"
 
 # Log in to 1password CLI
 
-#export OP_SERVICE_ACCOUNT_TOKEN=$OP_TOKEN
+export OP_SERVICE_ACCOUNT_TOKEN=$OP_SERVICE_ACCOUNT_TOKEN
 
 # Config vars via 1password secret refs
 

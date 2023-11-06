@@ -1,15 +1,14 @@
 FROM node:18 as BUILD
 
-WORKDIR /public
-COPY ./public /public
-RUN npx -p less lessc /public/less/index.less /public/css/index.css && \
-    npx -p clean-css-cli cleancss /public/css/index.css -o /public/css/index-min.css && \
-    mv /public/css/index-min.css /public/css/index.css
+WORKDIR /less
+COPY ./less /less
+RUN npx -p less lessc /less/index.less /less/index.css && \
+    npx -p clean-css-cli cleancss /less/index.css -o /less/index-min.css
 
 FROM gitea/gitea:1.14
 
 ENV GITEA_CUSTOM=/custom
 
-COPY --from=BUILD /public /custom/public
-COPY ./options /custom/options
+COPY ./public /custom/public
+COPY --from=BUILD /less/index-min.css /custom/public/index.css
 COPY ./templates /custom/templates
