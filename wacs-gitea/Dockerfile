@@ -6,7 +6,7 @@
 #     npx -p clean-css-cli cleancss /less/index.css -o /less/index-min.css
 # trivial change
 
-FROM gitea/gitea:1.17
+FROM gitea/gitea:1.18
 
 # ENV GITEA_CUSTOM=/custom
 
