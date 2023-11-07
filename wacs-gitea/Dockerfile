@@ -4,6 +4,7 @@
 # COPY ./less /less
 # RUN npx -p less lessc /less/index.less /less/index.css && \
 #     npx -p clean-css-cli cleancss /less/index.css -o /less/index-min.css
+# trivial change
 
 FROM gitea/gitea:1.15
 
